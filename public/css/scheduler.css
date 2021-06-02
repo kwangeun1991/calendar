@@ -1,0 +1,42 @@
+.scheduler { width: 1000px; margin: 30px auto; }
+.scheduler .nav { margin-bottom: 25px; }
+.scheduler .nav .month { font-size: 40px; font-weight: 500; margin-right: 20px; }
+.scheduler .nav. .year { font-size: 15px; }
+
+.scheduler .nav_btn { width: 65px; height: 65px; display: block; border-radius: 50%; background-color: #f0fc03; text-align: center; position: fixed; top: calc(50% - 32px); }
+.scheduler .nav_btn i { font-size: 30px; color: blue; position: relative; top: 17px; }
+.scheduler .nav_btn.prev { left: calc(50% - 600px); }
+.scheduler .nav_btn.next { right: calc(50% - 600px); }
+
+.scheduler .yoils li { float: left; width: calc(100% / 7); text-align: center; font-size: 14px; padding-bottom: 10px; }
+.scheduler .yoils:after { content: ''; display: block; clear: left; }
+
+.scheduler .yoils li:first-child { color: red; }
+.scheduler .yoils li:last-child { color: blue; }
+
+.scheduler .yoils { border-bottom: 1px solid #000000; }
+
+.scheduler .days li { float: left; width: calc(100% / 7); height: 150px; border-bottom: 1px solid #cecece; border-left: 1px solid #cecece; cursor: pointer; }
+.scheduler .days li:nth-child(7n+1) { border-left: 0; color: red; }
+.scheduler .days li:nth-child(7n) { color: blue; }
+.scheduler .days .day .no { padding: 5px; font-size: 12px; }
+
+
+
+
+/* views.html */
+#frmSchedule .box1 input[type='text'] { height: 45px; font-size: 20px; color: #666666; border: 0; }
+#frmSchedule .box1 .color label { display: block; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; }
+#frmSchedule .box1 input[type='radio'] { display: none; }
+#frmSchedule .box1 input[type='radio']:checked+label { border: 3px solid #000000; }
+#frmSchedule .box1 li { float: left; margin-right: 4px; }
+#frmSchedule .box1 ul:after { content: ''; display: block; clear: left; }
+#frmSchedule .box1 { border-bottom: 1px solid #d5d5d5; margin-bottom: 25px; padding-bottom: 5px; }
+#frmSchedule .box1 .color { margin-bottom: 10px; }
+
+#frmSchedule dl { padding: 0; margin: 0 0 10px; display: table; width: 100%; }
+#frmSchedule dt { display: table-cell; vertical-align: middle; width: 60px; }
+#frmSchedule dd { display: table-cell; vertical-align: middle; }
+#frmSchedule dd input[type='text'] { border: 1px solid #d5d5d5; height: 45px; border-radius: 5px; padding: 0 10px; width: 100%; }
+
+#frmSchedule .save { position: absolute; bottom: 30px; left: 30px; background-color: #d5d5d5; width: calc(100% - 60px); height: 50px; border-radius: 7px; text-align: center; cursor: pointer; line-height: 50px; font-size: 17px; }

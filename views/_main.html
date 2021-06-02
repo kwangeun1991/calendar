@@ -1,0 +1,29 @@
+<div class="scheduler">
+  <div class="nav">
+    <span class='month'>{{ month }}</span>
+    <span class='year'>{{ year }}</span>
+    <a href="?year={{ prevYear }}&month={{ prevMonth }}" class='nav_btn prev'>
+      <i class='xi-angle-left'></i>
+    </a>
+    <a href="?year={{ nextYear }}&month={{ nextMonth }}" class='nav_btn next'>
+      <i class='xi-angle-right'></i>
+    </a>
+  </div>
+
+  <ul class='yoils'>
+    {% for yoil in yoilsEn %}
+      <li>{{ yoil }}</li>
+    {% endfor %}
+  </ul>
+
+  <ul class='days'>
+    {% for day in days %}
+      <li class='day' data-stamp='{{ day.stamp }}'>
+        <div class="no">{{ day.day }}</div>
+        <div class="schedules">
+
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

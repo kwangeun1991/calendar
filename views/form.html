@@ -1,0 +1,36 @@
+<!-- 스케줄 등록 양식 -->
+<form method="post" id='frmSchedule' name='frmSchedule'>
+  <input type="hidden" name="stamp" value="{{ stamp }}">
+  <div class="box box1">
+    <div class="color">
+      <ul class='selection'>
+        {% for color in colors %}
+        <li>
+          <input type="radio" name="color" value="{{ color }}" id='color{{ loop.index }}'{% if loop.index == 1 %}checked{% endif %}>
+          <label for="color{{ loop.index }}" style='background-color: {{ color }};'></label>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="title">
+      <input type="text" name="title" placeholder="일정 제목">
+    </div>
+  </div>
+  <div class="box box2">
+    <dl>
+      <dt>시작</dt>
+      <dd>
+        <input type="text" name="startDate">
+      </dd>
+    </dl>
+    <dl>
+      <dt>종료</dt>
+      <dd>
+        <input type="text" name="endDate">
+      </dd>
+    </dl>
+  </div>
+  <div class="save">
+    스케줄 저장
+  </div>
+</form>
