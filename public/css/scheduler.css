@@ -61,3 +61,13 @@
 .schedule_view dd { display: table-cell; vertical-align: middle; }
 .schedule_view .btns { position: absolute; bottom: 30px; right: 30px; }
 .schedule_view .btns .btn { display: inline-block; padding: 10px 20px; background-color: #d5d5d5; border-radius: 7px; cursor: pointer; }
+
+
+
+
+
+.today_list .tit { font-size: 22px; border-bottom: 1px solid #d5d5d5; padding-bottom: 15px; margin-bottom: 15px; }
+.today_list ul li { padding: 15px 0; border-top: 1px dashed #d5d5d5; }
+.today_list ul li:first-child { border-top: 0; }
+.today_list .confirm { position: absolute; bottom: 30px; left: 30px; width: calc(100% - 60px); text-align: center; height: 55px; border-radius: 10px; background-color: #d5d5d5; cursor: pointer; line-height: 55px; font-size: 17px; }
+.today_list label { cursor: pointer; }

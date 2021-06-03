@@ -57,12 +57,11 @@ router.route('/schedule')
 
 /** 스케줄 조회 */
 router.get("/schedule/view/:stamp/:color", async (req, res, next) => {
-  const todaySchedules = await scheduler.getTodaySchedule();
-  console.log(todaySchedules);
-
   //req.params
   //console.log(req.params);
   const data = await scheduler.getSchedule(req.params.stamp, req.params.color);
+  data.todaySchedules = await scheduler.getTodaySchedule();
+  //console.log(todaySchedules);
   //console.log(data);
   data.colors = Object.keys(scheduler.getColors());
 
@@ -77,5 +76,17 @@ router.get("/schedule/:period/:color", async (req, res, next) => {
 
   return res.render("form", data);
 });
+
+/** 오늘 스케줄 확인 */
+router.route("/schedule/today")
+      .get(async (req, res, next) => {
+      const list = await scheduler.getTodaySchedules();
+      return res.render("today", { list });
+      })
+      .patch(async (req, res, next) => {
+        const result = await scheduler.confrimTodaySchedule(req.body.isChecked);
+
+        return res.json({success:result});
+      });
 
 module.exports = router;

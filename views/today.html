@@ -1,0 +1,14 @@
+<div class="today_list">
+  <div class="tit">오늘의 할일</div>
+  {% if list %}
+  <ul>
+    {% for item in list %}
+    <li>
+      <input type="checkbox" name="isChecked" value="{{ item.color }}" id='isChecked{{ loop.index }}'>
+      <label for="isChecked{{ loop.index }}">{{ item.title }}</label>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="comfirm">스케줄 확인</div>
+</div>

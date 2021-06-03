@@ -1,4 +1,14 @@
+/** 오늘 스케줄이 있는경우 팝업 노출 */
+function popupToday() {
+  if ($(".scheduler").hasClass("today")) {
+    ke.layer.popup("/schedule/today", 500, 400);
+  }
+}
+
 $(function() {
+  // 오늘 스케줄 팝업
+  popupToday();
+
   $(".scheduler .day .no").click(function() {
     const stamp = $(this).closest(".day").data("stamp");
     const url = "/schedule?stamp=" + stamp;
@@ -97,7 +107,7 @@ $(function() {
                 alert(res.data.message);
               } else {
                 alert("스케줄 등록 실패하였습니다.");
-              }              
+              }
             }
           })
           .catch(function() {
@@ -132,6 +142,38 @@ $(function() {
         .catch(function(err) {
           console.error(err);
         });
+  });
+
+  /** 오늘 스케줄 확인 처리 */
+  $("body").on("click", ".today_list .confirm", function() {
+    $list = $(".today_list input[type='checkbox']:checked");
+
+    if ($list.length == 0) {
+      alert("확인할 스케줄을 선택하세요.");
+      return;
+    }
+
+    if (!confirm('정말 확인처리 하시겠습니까?')) {
+      return;
+    }
+
+    const isChecked = [];
+    $.each($list, function() {
+      isChecked.push($(this).val());
+    });
+
+    axios.patch("/schedule.today", { isChecked })
+          .then(function(res) {
+            //console.log(res);
+            if (res.data.success) {
+              location.reload();
+            } else {
+              alert("오늘의스케줄 확인 실패");
+            }
+          })
+          .catch(function(err) {
+            console.error(err);
+          });
   });
 
   $.datepicker.setDefaults({

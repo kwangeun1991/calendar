@@ -1,4 +1,4 @@
-<div class="scheduler">
+<div class="scheduler{% if todaySchedules.length > 0 %} today{% endif %}">
   <span class='add_schedule' onclick='ke.layer.popup("schedule", 500, 400)'>
     <i class='xi-plus-circle-o'></i>
     일정 등록
