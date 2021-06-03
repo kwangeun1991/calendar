@@ -1,0 +1,19 @@
+<div class="schedule_view" data-period='{{ period }}' data-color='{{ color }}'>
+  <ul class='colors selection'>
+    {% for c in colors %}
+    <li>
+      <input type="radio" name="color" value="{{ c }}" id='color{{ loop.index }}' {% if color == c %} checked{% endif %}>
+      <label for="color{{ loop.index }}" style='background-color: {{ c }};'></label>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="title">{{ title }}</div>
+  <dl>
+    <dt>일시</dt>
+    <dd>{{ periodStr }}</dd>
+  </dl>
+  <div class="btns">
+    <span class="delete btn">일정 삭제</span>
+    <span class="modify btn">일정 수정</span>
+  </div>
+</div>

@@ -36,6 +36,7 @@ $(function() {
       }
     } catch (err) {
       alert(err.message);
+      
       return;
     }
 
