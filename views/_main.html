@@ -1,4 +1,8 @@
 <div class="scheduler">
+  <span class='add_schedule' onclick='ke.layer.popup("schedule", 500, 400)'>
+    <i class='xi-plus-circle-o'></i>
+    일정 등록
+  </span>
   <div class="nav">
     <span class='month'>{{ month }}</span>
     <span class='year'>{{ year }}</span>
@@ -20,13 +24,14 @@
     {% for day in days %}
       <li class='day' data-stamp='{{ day.stamp }}'>
         <div class="no">{{ day.day }}</div>
-        <div class="schedules">
-        {% for color in colors %}
-          {% for s in day.schedules[color] %}
-          <div class="schedule" style='background-color: {{ s.color }}; color: {{ fontColor[color] }};' data-color='{{ s.color }}'>
-            {{ s.title }}
-          </div>
+        <div class='schedules'>
+			  {% for color in colors %}
+
+  				<div class='schedule{% if day.schedules[color].length == 0 %} none{% endif %}'{% if day.schedules[color].length > 0 %} style="background-color: {{ color }}; color : {{ fontColor[color] }};{% endif %}" data-color='{{ color }}'>
+  				{% for s in day.schedules[color] %}
+              {{ s.title }}
           {% endfor %}
+            </div>
         {% endfor %}
         </div>
       </li>

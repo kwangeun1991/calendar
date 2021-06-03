@@ -7,6 +7,10 @@ $(function() {
 
   /** 스케줄 조회, 삭제 */
   $(".scheduler, .schedule").click(function() {
+    if ($(this).hasClass('none')) {
+      return;
+    }
+
     const stamp = $(this).closest(".day").data("stamp");
     const color = $(this).data("color");
     url = `/schedule/view/${stamp}/${color}`;
@@ -15,16 +19,40 @@ $(function() {
 
   /** 스케줄 삭제 */
   $("body").on("click", ".schedule_view .delete", function() {
-    const period = $(this).closest(".schedule_view").data("period");
-    const url = "/schedule",
-    
-    axios.delete(url)
+    if (!confirm('정말 삭제하시겠습니까?')) {
+      return;
+    }
+
+    $obj = $(this).closest(".schedule_view");
+    const period = $obj.data("period");
+    const color = $obj.data("color");
+    const url = "/schedule";
+
+    const formData = new FormData();
+    formData.period = period;
+    formData.color = color;
+
+    axios.delete(url, { params : formData })
           .then(function(res) {
-            console.log(res);
+            //console.log(res);
+            if (res.data.success) {
+              location.reload();
+            } else {
+              alert("삭제 실패");
+            }
           })
           .catch(function(err) {
             console.error(err);
           });
+  });
+
+  /** 스케줄 수정 */
+  $("body").on("click", ".schedule_view .modify", function() {
+    $obj = $(this).closest(".schedule_view");
+    const period = $obj.data("period");
+    const color = $obj.data("color");
+    const url = `/schedule/${period}/${color}`;
+    ke.layer.popup(url, 500, 400);
   });
 
   /** 스케줄 저장 */
@@ -65,12 +93,45 @@ $(function() {
             if (res.data.success) {
               location.reload();
             } else {
-              alert("스케줄 등록 실패하였습니다.");
+              if (res.data.message) {
+                alert(res.data.message);
+              } else {
+                alert("스케줄 등록 실패하였습니다.");
+              }              
             }
           })
           .catch(function() {
             console.error(err);
           });
+  });
+
+  /** 스케줄 색상 변경 */
+  $("body").on("click", ".schedule_view input[type='radio']", function() {
+    $obj =  $(this).closest(".schedule_view");
+    const color = $(this).val();
+    const period =$obj.data("period");
+    const prevColor = $obj.data("color");
+    if (color == prevColor) // 색상이 다른경우만 처리
+      return;
+
+    const params = {
+      color : color,
+      period : period,
+      prevColor : prevColor,
+    };
+
+    axios.patch("/schedule", params)
+        .then(function(res) {
+          //console.log(res);
+          if (res.data.success) {
+            location.reload();
+          } else {
+            alert("스케줄 색상 변경 실패 or 이미 등록된 색상");
+          }
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
   });
 
   $.datepicker.setDefaults({

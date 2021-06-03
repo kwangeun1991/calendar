@@ -1,4 +1,5 @@
-.scheduler { width: 1000px; margin: 30px auto; }
+.scheduler { width: 1000px; margin: 30px auto; position: relative; }
+.scheduler .add_schedule { position: absolute; right: 0; padding: 10px 20px; border-radius: 7px; background-color: #d5d5d5; font-size: 14px; cursor: pointer; }
 .scheduler .nav { margin-bottom: 25px; }
 .scheduler .nav .month { font-size: 40px; font-weight: 500; margin-right: 20px; }
 .scheduler .nav. .year { font-size: 15px; }
@@ -16,7 +17,7 @@
 
 .scheduler .yoils { border-bottom: 1px solid #000000; }
 
-.scheduler .days li { float: left; width: calc(100% / 7); height: 150px; border-bottom: 1px solid #cecece; border-left: 1px solid #cecece; }
+.scheduler .days li { float: left; width: calc(100% / 7); height: 180px; border-bottom: 1px solid #cecece; border-left: 1px solid #cecece; }
 .scheduler .days li:nth-child(7n+1) { border-left: 0; color: red; }
 .scheduler .days li:nth-child(7n) { color: blue; }
 .scheduler .days .day .no { padding: 5px; font-size: 12px; cursor: pointer; }
@@ -44,7 +45,6 @@
 #frmSchedule dd input[type='text'] { border: 1px solid #d5d5d5; height: 45px; border-radius: 5px; padding: 0 10px; width: 100%; }
 
 #frmSchedule .save { position: absolute; bottom: 30px; left: 30px; background-color: #d5d5d5; width: calc(100% - 60px); height: 50px; border-radius: 7px; text-align: center; cursor: pointer; line-height: 50px; font-size: 17px; }
-
 
 
 

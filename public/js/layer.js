@@ -51,7 +51,7 @@ ke.layer = {
 
     axios.get(url)
         .then(function(response) {
-          console.log(response);
+          //console.log(response);
           $popup.html(response.data);
         })
         .catch(function (error) {

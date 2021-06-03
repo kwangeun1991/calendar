@@ -2,6 +2,7 @@ const scheduler = require('../models/scheduler');
 const express = require('express');
 const logger = require('../lib/logger');
 const { validator } = require('../middlewares/validator');
+
 const router = express.Router();
 
 // 스케줄 조회
@@ -30,7 +31,7 @@ router.route('/schedule')
 
           res.render("form", data);
         })
-        // 스케줄 등록
+        // 스케줄 등록, 수정
         .post(validator, async (req, res, next) => {
           //console.log(req.body);
           const result = await scheduler.add(req.body);
@@ -39,17 +40,26 @@ router.route('/schedule')
 
           return res.json({ success:result });
         })
-        // 스케줄 수정
-        .patch((req, res, next) => {
+        // 스케줄 색상 수정
+        .patch( async (req, res, next) => {
+          //console.log(req.body);
+          const result = await scheduler.changeColor(req.body.period, req.body.prevColor, req.body.color);
 
+          return res.json({success : result});
         })
         // 스케줄 삭제
-        .delete((req, res, next) => {
+        .delete( async (req, res, next) => {
+          //console.log(req.query);
+          const result = await scheduler.delete(req.query.period, req.query.color);
 
+          return res.json({ success : result });
         });
 
 /** 스케줄 조회 */
 router.get("/schedule/view/:stamp/:color", async (req, res, next) => {
+  const todaySchedules = await scheduler.getTodaySchedule();
+  console.log(todaySchedules);
+
   //req.params
   //console.log(req.params);
   const data = await scheduler.getSchedule(req.params.stamp, req.params.color);
@@ -57,6 +67,15 @@ router.get("/schedule/view/:stamp/:color", async (req, res, next) => {
   data.colors = Object.keys(scheduler.getColors());
 
   return res.render("view", data);
+});
+
+/** 스케줄 수정 */
+router.get("/schedule/:period/:color", async (req, res, next) => {
+  const data = await scheduler.getInfo(req.params.period, req.params.color);
+  data.colors =  Object.keys(scheduler.getColors());
+  data.period = req.params.period;
+
+  return res.render("form", data);
 });
 
 module.exports = router;

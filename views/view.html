@@ -2,7 +2,7 @@
   <ul class='colors selection'>
     {% for c in colors %}
     <li>
-      <input type="radio" name="color" value="{{ c }}" id='color{{ loop.index }}' {% if color == c %} checked{% endif %}>
+      <input type="radio" name="color" value="{{ c }}" id='color{{ loop.index }}'{% if color == c %} checked{% endif %}>
       <label for="color{{ loop.index }}" style='background-color: {{ c }};'></label>
     </li>
     {% endfor %}
