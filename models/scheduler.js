@@ -236,6 +236,7 @@ const scheduler = {
   *
   */
   getDate : function(stamp, mode) {
+    //console.log(stamp);
     const date = new Date(Number(stamp));
     const year = date.getFullYear();
     let month = date.getMonth() + 1;

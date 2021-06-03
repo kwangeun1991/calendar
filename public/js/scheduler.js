@@ -1,6 +1,6 @@
 $(function() {
   $(".scheduler .day .no").click(function() {
-    const stamp = $(this).data("stamp");
+    const stamp = $(this).closest(".day").data("stamp");
     const url = "/schedule?stamp=" + stamp;
     ke.layer.popup(url, 500, 400);
   });
@@ -11,6 +11,20 @@ $(function() {
     const color = $(this).data("color");
     url = `/schedule/view/${stamp}/${color}`;
     ke.layer.popup(url, 500, 400);
+  });
+
+  /** 스케줄 삭제 */
+  $("body").on("click", ".schedule_view .delete", function() {
+    const period = $(this).closest(".schedule_view").data("period");
+    const url = "/schedule",
+    
+    axios.delete(url)
+          .then(function(res) {
+            console.log(res);
+          })
+          .catch(function(err) {
+            console.error(err);
+          });
   });
 
   /** 스케줄 저장 */
@@ -36,7 +50,7 @@ $(function() {
       }
     } catch (err) {
       alert(err.message);
-      
+
       return;
     }
 
