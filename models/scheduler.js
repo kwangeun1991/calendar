@@ -65,6 +65,8 @@ const scheduler = {
     const schedules = await this.get(days[0].object, days[days.length -1].object);
     //console.log(schedules);
     const colors = Object.keys(this.getColors());
+
+
     days.forEach((v, i, _days) => {
       let isContinue = true;
       if ( i >= 35) {
@@ -151,14 +153,6 @@ const scheduler = {
       gray : 'black',
       orange : 'black',
       green : 'white',
-      '#fff200' : 'black',
-      '#eeff00': 'black',
-      '#ff8c00' : 'white',
-      '#00ffbb' : 'black',
-      '#ffd000' : 'black',
-      '#80ff00' : 'black',
-      '#bc63ff' : 'white',
-      '#9500ff' : 'white',
     }
   },
   /**
@@ -185,7 +179,7 @@ const scheduler = {
     try {
       if (params.prevColor) {
         const sql = `DELETE FROM schedule WHERE period = :period AND color = :color`;
-        await sequeluze.query(sql, {
+        await sequelize.query(sql, {
           replacements : { period: params.prevPeriod, color: params.prevColor},
           type : QueryTypes.DELETE,
         });

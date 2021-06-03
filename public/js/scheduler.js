@@ -16,7 +16,7 @@ $(function() {
   });
 
   /** 스케줄 조회, 삭제 */
-  $(".scheduler, .schedule").click(function() {
+  $(".scheduler .schedule").click(function() {
     if ($(this).hasClass('none')) {
       return;
     }
@@ -99,7 +99,7 @@ $(function() {
     /** axios로 ajax 처리 */
     axios.post('/schedule', qs)
           .then(function(res) {
-            //console.log(res);
+            console.log(res);
             if (res.data.success) {
               location.reload();
             } else {
