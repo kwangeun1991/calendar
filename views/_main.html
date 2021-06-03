@@ -21,7 +21,13 @@
       <li class='day' data-stamp='{{ day.stamp }}'>
         <div class="no">{{ day.day }}</div>
         <div class="schedules">
-
+        {% for color in colors %}
+          {% for s in day.schedules[color] %}
+          <div class="schedule" style='background-color: {{ s.color }};' data-color='{{ s.color }}'>
+            {{ s.title }}
+          </div>
+          {% endfor %}
+        {% endfor %}
         </div>
       </li>
     {% endfor %}

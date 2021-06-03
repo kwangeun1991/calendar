@@ -59,19 +59,37 @@ const scheduler = {
     }// endfor
     //console.log(nextMonthDays);
     //console.log(days);
-    if (nextMonthDays >= 7) {
-      days.forEach((v, i, _days) => {
-        if (i >= 35) {
-          delete _days[i];
-        }
-      });
 
+
+    /** 스케줄 조회 */
+    const schedules = await this.get(days[0].object, days[days.length -1].object);
+    //console.log(schedules);
+    const colors = this.getColors();
+    days.forEach((v, i, _days) => {
+      let isContinue = true;
+      if ( i >= 35) {
+        if (nextMonthDays >= 7) {
+          delete _days[i];
+          isContinue = false;
+        }
+      }
+      if (isContinue) {
+        const date = v.date.replace(/\./g, "");
+        const schedule = {};
+        colors.forEach((color) => {
+          const cl = color.replace(/#/g, "");
+          const key = "S" + date + "_" + cl;
+          schedule[cl] = schedules[key]?schedules[key]:[];
+        });
+        //console.log(schedule);
+        _days[i].schedules = schedule;
+      }
+    });
+    /** 스케줄 조회 */
+
+    if (nextMonthDays >= 7) {
       days.length = 35;
     }
-
-    /** 스케줄 조회 */
-    const schedules = this.get(days[0].object, days[days.length -1].object);
-    /** 스케줄 조회 */
 
 
     let nextYear = year, prevYear = year;
@@ -91,7 +109,8 @@ const scheduler = {
 
     //console.log(days);
     const yoilsEn = this.getYoils('en');
-    return {days, year, month, yoilsEn, prevYear, prevMonth, nextYear, nextMonth};
+    const fontColor = this.getColors();
+    return {days, year, month, yoilsEn, prevYear, prevMonth, nextYear, nextMonth, colors, fontColor};
   },
   /**
   * 현재요일 (일~토)
@@ -125,21 +144,21 @@ const scheduler = {
   */
   getColors : function() {
     return [
-      'pink',
-      '#fff200',
-      '#eeff00',
-      '#ff8c00',
-      '#00ffbb',
-      '#ffd000',
-      '#80ff00',
-      '#bc63ff',
-      'blue',
-      'skyblue',
-      'red',
-      'gray',
-      'orange',
-      'green',
-      '#9500ff',
+      {'pink' : 'black'},
+      {'#fff200' : 'black'},
+      {'#eeff00' : 'black'},
+      {'#ff8c00' : 'white'},
+      {'#00ffbb' : 'black'},
+      {'#ffd000' : 'black'},
+      {'#80ff00' : 'black'},
+      {'#bc63ff' : 'white'},
+      {'blue' : 'white'},
+      {'skyblue' : 'black'},
+      {'red' : 'white'},
+      {'gray' : 'black'},
+      {'orange' : 'black'},
+      {'green' : 'white'},
+      {'#9500ff' : 'white'},
     ];
   },
   /**
@@ -198,13 +217,16 @@ const scheduler = {
       const list = {};
       // 날짜 - 색상 - 일정
       //      - 색상
-      rows.forEach(async (v) => {
+      rows.forEach(async(v) => {
         //console.log(v);
-        let scheduleDate = "S" + v.scheduleDate.replace(/-/g, "");
-        list[scheduleDate][v.color] = list[scheduleDate][v.color] || [];
-        list[scheduleDate][v.color].push(v);
+        let key = "S" + v.scheduleDate.replace(/-/g, "");
+        key += "_" + v.color.replace(/#/g, "");
+        //console.log(key);
+        list[key] = list[key] || [];
+        list[key].push(v);
       });
-      console.log(list);
+      //console.log(list);
+      return list;
   },
 
 };
