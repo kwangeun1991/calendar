@@ -16,14 +16,14 @@
 
 .scheduler .yoils { border-bottom: 1px solid #000000; }
 
-.scheduler .days li { float: left; width: calc(100% / 7); height: 150px; border-bottom: 1px solid #cecece; border-left: 1px solid #cecece; cursor: pointer; }
+.scheduler .days li { float: left; width: calc(100% / 7); height: 150px; border-bottom: 1px solid #cecece; border-left: 1px solid #cecece; }
 .scheduler .days li:nth-child(7n+1) { border-left: 0; color: red; }
 .scheduler .days li:nth-child(7n) { color: blue; }
-.scheduler .days .day .no { padding: 5px; font-size: 12px; }
+.scheduler .days .day .no { padding: 5px; font-size: 12px; cursor: pointer; }
 
 
 
-.scheduler .schedule { height: 20px; padding: 0 10px; text-align: center; line-height: 22px; font-size: 12px; }
+.scheduler .schedule { height: 20px; padding: 0 10px; text-align: center; line-height: 22px; font-size: 12px; cursor: pointer; }
 
 
 

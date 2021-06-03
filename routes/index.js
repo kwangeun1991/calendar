@@ -7,7 +7,7 @@ const router = express.Router();
 // 스케줄 조회
 router.get('/', async (req, res, next) => {
   const data = await scheduler.getCalendar(req.query.year, req.query.month);
-  console.log(data);
+  //console.log(data);
 
   res.render('main', data);
 });
@@ -23,7 +23,8 @@ router.route('/schedule')
 
           const data = {
             stamp,
-            colors : scheduler.getColors(),
+            colors : Object.keys(scheduler.getColors()),
+            date : scheduler.getDate(stamp),
           };
 
           res.render("form", data);
@@ -45,5 +46,15 @@ router.route('/schedule')
         .delete((req, res, next) => {
 
         });
+
+/** 스케줄 조회 */
+router.get("/schedule/view/:stamp/:color", async (req, res, next) => {
+  //req.params
+  //console.log(req.params);
+  const data = await scheduler.getSchedule(req.params.stamp, req.params.color);
+  console.log(data);
+  
+  return res.send("");
+});
 
 module.exports = router;

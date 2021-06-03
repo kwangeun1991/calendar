@@ -23,7 +23,7 @@
         <div class="schedules">
         {% for color in colors %}
           {% for s in day.schedules[color] %}
-          <div class="schedule" style='background-color: {{ s.color }};' data-color='{{ s.color }}'>
+          <div class="schedule" style='background-color: {{ s.color }}; color: {{ fontColor[color] }};' data-color='{{ s.color }}'>
             {{ s.title }}
           </div>
           {% endfor %}

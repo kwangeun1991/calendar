@@ -46,14 +46,14 @@ const scheduler = {
       newMonth = (newMonth < 10)?"0"+newMonth:newMonth;
       newDay = (newDay < 10)?"0"+newDay:newDay;
       const str = `${newYear}.${newMonth}.${newDay}`;
-      const stamp = parseInt(newStamp / 1000); // 1초단위 unit time
+      //const stamp = parseInt(newStamp / 1000); // 1초단위 unit time
 
       days.push({
         'date' : str, // 년도      2020.07.20
         'day' : newDay, // 01, 02, 03, ...
         'yoil' : this.getYoil(newStamp), // 일,월,화,수,... 한글요일
         'yoilsEn' : this.getYoil(newStamp, 'en'), // 영문요일
-        'stamp' : stamp, // 1초단위 unix timestamp
+        'stamp' : newStamp, // 1초단위 unix timestamp
         'object' : date,
       });
     }// endfor
@@ -64,7 +64,7 @@ const scheduler = {
     /** 스케줄 조회 */
     const schedules = await this.get(days[0].object, days[days.length -1].object);
     //console.log(schedules);
-    const colors = this.getColors();
+    const colors = Object.keys(this.getColors());
     days.forEach((v, i, _days) => {
       let isContinue = true;
       if ( i >= 35) {
@@ -143,23 +143,23 @@ const scheduler = {
   *
   */
   getColors : function() {
-    return [
-      {'pink' : 'black'},
-      {'#fff200' : 'black'},
-      {'#eeff00' : 'black'},
-      {'#ff8c00' : 'white'},
-      {'#00ffbb' : 'black'},
-      {'#ffd000' : 'black'},
-      {'#80ff00' : 'black'},
-      {'#bc63ff' : 'white'},
-      {'blue' : 'white'},
-      {'skyblue' : 'black'},
-      {'red' : 'white'},
-      {'gray' : 'black'},
-      {'orange' : 'black'},
-      {'green' : 'white'},
-      {'#9500ff' : 'white'},
-    ];
+    return {
+      pink : 'black',
+      '#fff200' : 'black',
+      '#eeff00': 'black',
+      '#ff8c00' : 'white',
+      '#00ffbb' : 'black',
+      '#ffd000' : 'black',
+      '#80ff00' : 'black',
+      '#bc63ff' : 'white',
+      blue : 'white',
+      skyblue : 'black',
+      red : 'white',
+      gray : 'black',
+      orange : 'black',
+      green : 'white',
+      '#9500ff' : 'white',
+    }
   },
   /**
   * 스케줄 추가
@@ -175,15 +175,18 @@ const scheduler = {
 
     const step = (60 * 60 * 24 * 1000);
 
+    const period = startStamp + "_" + endStamp;
+
     try {
       for (let i = startStamp; i <= endStamp; i += step) {
         //console.log(new Date(i));
-        const sql = `INSERT INTO schedule (scheduleDate, title, color)
-                                    VALUES(:scheduleDate, :title, :color)`;
+        const sql = `INSERT INTO schedule (scheduleDate, title, color, period)
+                                    VALUES(:scheduleDate, :title, :color, :period)`;
         const replacements = {
           scheduleDate : new Date(i),
           title : params.title,
           color : params.color,
+          period,
         };
 
         await sequelize.query(sql, {
@@ -227,6 +230,49 @@ const scheduler = {
       });
       //console.log(list);
       return list;
+  },
+  /**
+  * unixtimestamp -> 날짜 형식
+  *
+  */
+  getDate : function(stamp) {
+    const date = new Date(Number(stamp));
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    month = (month < 10)?"0"+month:month;
+    let day = date.getDate();
+    day = (day < 10)?"0"+day:day;
+
+    return `${year}.${month}.${day}`;
+  },
+  /**
+  * 스케줄 조회
+  *
+  */
+  getSchedule : async function(stamp, color) {
+    try {
+      const sql = `SELECT * FROM schedule WHERE scheduleDate = ? AND color = ?`;
+      let rows = await sequelize.query(sql, {
+        replacements : [new Date(Number(stamp)), color],
+        type : QueryTypes.SELECT,
+      });
+
+      rows = rows[0] || {};
+      if (rows) {
+        // 스케줄 기간
+        const period = rows.period.split("_");
+        const startDate = this.getDate(period[0], 'period');
+        const endDate = this.getDate(period[1], 'period');
+
+      }
+
+      return rows;
+
+    } catch (err) {
+      logger(err.message, 'error');
+      logger(err.stack, 'error');
+      return {};
+    }
   },
 
 };
