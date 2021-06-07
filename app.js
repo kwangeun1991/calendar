@@ -12,8 +12,8 @@ const indexRouter = require('./routes');
 dotenv.config();
 
 const app = express();
-app.set('port', process.env.PORT || 3000);
 
+app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
   express : app,
@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   err.status = err.status || 500;
   const message = `${err.status} ${err.message}`;
-  logger(message, 'error');
+  logger(err.message, 'error');
   logger(err.stack, 'error');
 
   if (process.env.NODE_ENV == 'production') err.stack = {};
